@@ -296,6 +296,22 @@ if pipeworks.enable_mese_tube then
 			materials.mese_crystal_fragment,
 		},
 	})
+
+	minetest.register_craft( {
+		type = "shapeless",
+		output = "pipeworks:mese_tube2_000000",
+		recipe = {
+			"pipeworks:mese_tube_000000"
+		},
+	})
+
+	minetest.register_craft( {
+		type = "shapeless",
+		output = "pipeworks:mese_tube_000000",
+		recipe = {
+			"pipeworks:mese_tube2_000000"
+		},
+	})
 end
 
 if pipeworks.enable_sand_tube then
