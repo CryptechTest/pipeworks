@@ -16,7 +16,7 @@ if pipeworks.enable_mese_tube then
 		local buttons_formspec = ""
 		for i = 0, 5 do
 			buttons_formspec = buttons_formspec .. fs_helpers.cycling_button(meta,
-				"image_button[9,"..(i+(i*0.25)+0.5)..";1,0.6", "l"..(i+1).."s",
+				"image_button[9,"..(i+(i*0.25)+0.48)..";1,0.55", "l"..(i+1).."s",
 				{
 					pipeworks.button_off,
 					pipeworks.button_on

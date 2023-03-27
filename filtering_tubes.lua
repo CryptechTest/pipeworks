@@ -16,7 +16,7 @@ if pipeworks.enable_mese_tube then
 		local buttons_formspec = ""
 		for i = 0, 5 do
 			buttons_formspec = buttons_formspec .. fs_helpers.cycling_button(meta,
-				"image_button[9,"..(i+(i*0.25)+0.5)..";1,0.6", "l"..(i+1).."s",
+				"image_button[9,"..(i+(i*0.25)+0.48)..";1,0.55", "l"..(i+1).."s",
 				{
 					pipeworks.button_off,
 					pipeworks.button_on
@@ -77,7 +77,7 @@ if pipeworks.enable_mese_tube then
 			plain = {"pipeworks_mese_tube_plain_1_b.png", "pipeworks_mese_tube_plain_2_b.png", "pipeworks_mese_tube_plain_3_b.png",
 				"pipeworks_mese_tube_plain_4_b.png", "pipeworks_mese_tube_plain_5_b.png", "pipeworks_mese_tube_plain_6_b.png"},
 			ends = { "pipeworks_mese_tube_end.png" },
-			short = "pipeworks_mese_tube_short.png",
+			short = "pipeworks_mese_tube_short_b.png",
 			no_facedir = true,  -- Must use old tubes, since the textures are rotated with 6d ones
 			node_def = {
 				tube = {can_go = function(pos, node, velocity, stack)
