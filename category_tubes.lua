@@ -103,7 +103,7 @@ if pipeworks.enable_mese_tube then
 						 local meta = minetest.get_meta(pos)
 						 local inv = meta:get_inventory()
 						 local name = stack:get_name()
-						 local item = minetest.registered_nodes[name]
+						 local item = minetest.registered_items[name]
 						 local groups = {}
 						 if (item and item.groups) then
 						 	groups = item.groups
@@ -132,7 +132,7 @@ if pipeworks.enable_mese_tube then
 										local pattern = ".*"..sname..".*"
 										--minetest.log("Found node: " .. string.match(name, "([^:]+)$") .. " pattern: " .. sname)
 										for i, g in ipairs(groups) do
-											if g and sname ~= "" and g == sname then
+											if g and g == sname then
 												bfound = true;
 												foundn = foundn + 1
 												found[foundn] = vect
@@ -142,7 +142,7 @@ if pipeworks.enable_mese_tube then
 										end
 										if (bfound == false and sname ~= "") then
 											is_empty = false;
-											if (minetest.get_item_group(name, sname) == 1) then	
+											if (minetest.get_item_group(name, sname) ~= 0) then
 												bfound = true;
 												foundn = foundn + 1
 												found[foundn] = vect
@@ -152,7 +152,7 @@ if pipeworks.enable_mese_tube then
 												bfound = true;
 												foundn = foundn + 1
 												found[foundn] = vect
-												--minetest.log("Found Matching... " .. sname .. " item: " .. name)
+												--minetest.log("Found Matching: " .. sname .. " item: " .. name)
 											end
 										end
 										if is_empty then
@@ -168,7 +168,7 @@ if pipeworks.enable_mese_tube then
 							end
 							-- exit port check loop
 							if (bfound) then
-								--minetest.log("Found Matching.. " .. lastname .. " item: " .. name)
+								--minetest.log("Found Matching!!! " .. lastname .. " item: " .. name)
 								break
 							end
 						 end
