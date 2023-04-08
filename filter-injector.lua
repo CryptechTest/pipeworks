@@ -104,31 +104,6 @@ local function punch_filter(data, filtpos, filtnode, msg)
         ["technic:hv_grinder_active"] = "dst"
     }
 
-    if (minetest.get_modpath("ctg_airs")) then
-        -- FIXME: this is not needed!  move to proper place
-        input_special_cases["ctg_airs:lv_air_handler"] = "dst"
-        input_special_cases["ctg_airs:lv_air_handler_wait"] = "dst"
-        input_special_cases["ctg_airs:lv_air_handler_active"] = "dst"
-        input_special_cases["ctg_airs:mv_air_handler"] = "dst"
-        input_special_cases["ctg_airs:mv_air_handler_wait"] = "dst"
-        input_special_cases["ctg_airs:mv_air_handler_active"] = "dst"
-    end
-    if (minetest.get_modpath("ctg_machines")) then
-        -- FIXME: this is not needed!  move to proper place
-        input_special_cases["ctg_machines:lv_electrolysis"] = "dst"
-        input_special_cases["ctg_machines:lv_electrolysis_active"] = "dst"
-        input_special_cases["ctg_machines:mv_electrolysis"] = "dst"
-        input_special_cases["ctg_machines:mv_electrolysis_active"] = "dst"
-        input_special_cases["ctg_machines:lv_recycler"] = "dst"
-        input_special_cases["ctg_machines:lv_recycler_active"] = "dst"
-        input_special_cases["ctg_machines:mv_recycler"] = "dst"
-        input_special_cases["ctg_machines:mv_recycler_active"] = "dst"
-        input_special_cases["ctg_machines:lv_bottler"] = "dst"
-        input_special_cases["ctg_machines:lv_bottler_active"] = "dst"
-        input_special_cases["ctg_machines:mv_bottler"] = "dst"
-        input_special_cases["ctg_machines:mv_bottler_active"] = "dst"
-    end
-
     -- make sure there's something appropriate to inject the item into
     local todir = pipeworks.facedir_to_right_dir(filtnode.param2)
     local topos = vector.add(filtpos, todir)
