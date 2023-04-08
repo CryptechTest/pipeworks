@@ -104,6 +104,12 @@ local function punch_filter(data, filtpos, filtnode, msg)
 		["technic:hv_grinder_active"] = "dst"
 	}
 
+	if (minetest.get_modpath("ctg_airs")) then
+		input_special_cases["ctg_airs:lv_air_handler"] = "dst"
+		input_special_cases["ctg_airs:lv_air_handler_wait"] = "dst"
+		input_special_cases["ctg_airs:lv_air_handler_active"] = "dst"
+	end
+
 	-- make sure there's something appropriate to inject the item into
 	local todir = pipeworks.facedir_to_right_dir(filtnode.param2)
 	local topos = vector.add(filtpos, todir)
