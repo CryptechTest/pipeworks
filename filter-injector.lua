@@ -101,10 +101,18 @@ local function punch_filter(data, filtpos, filtnode, msg)
         input_special_cases["ctg_airs:mv_air_handler_active"] = "dst"
     end
     if (minetest.get_modpath("ctg_machines")) then
-        input_special_cases["ctg_airs:lv_electrolysis"] = "dst"
-        input_special_cases["ctg_airs:lv_electrolysis_active"] = "dst"
-        input_special_cases["ctg_airs:mv_electrolysis"] = "dst"
-        input_special_cases["ctg_airs:mv_electrolysis_active"] = "dst"
+        input_special_cases["ctg_machines:lv_electrolysis"] = "dst"
+        input_special_cases["ctg_machines:lv_electrolysis_active"] = "dst"
+        input_special_cases["ctg_machines:mv_electrolysis"] = "dst"
+        input_special_cases["ctg_machines:mv_electrolysis_active"] = "dst"
+        input_special_cases["ctg_machines:lv_recycler"] = "dst"
+        input_special_cases["ctg_machines:lv_recycler_active"] = "dst"
+        input_special_cases["ctg_machines:mv_recycler"] = "dst"
+        input_special_cases["ctg_machines:mv_recycler_active"] = "dst"
+        input_special_cases["ctg_machines:lv_bottler"] = "dst"
+        input_special_cases["ctg_machines:lv_bottler_active"] = "dst"
+        input_special_cases["ctg_machines:mv_bottler"] = "dst"
+        input_special_cases["ctg_machines:mv_bottler_active"] = "dst"
     end
 
     -- make sure there's something appropriate to inject the item into
