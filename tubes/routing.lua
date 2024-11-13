@@ -50,6 +50,7 @@ pipeworks.register_tube("pipeworks:broken_tube", {
 	node_def = {
 		drop = "pipeworks:tube_1",
 		groups = {not_in_creative_inventory = 1, tubedevice_receiver = 1},
+		is_ground_content = false,
 		tube = {
 			insert_object = function(pos, node, stack, direction)
 				minetest.item_drop(stack, nil, pos)
@@ -93,11 +94,21 @@ pipeworks.register_tube("pipeworks:broken_tube", {
 					minetest.swap_node(pos, { name = was_node.name, param2 = was_node.param2 })
 					pipeworks.scan_for_tube_objects(pos)
 				end
+				meta:set_string("the_tube_was", "")
 			else
 				pipeworks.logger(log_msg.." but original node "..was_node.name.." is not registered anymore.")
 				minetest.chat_send_player(playername, S("This tube cannot be repaired."))
 			end
-		end
+		end,
+		allow_metadata_inventory_put = function()
+			return 0
+		end,
+		allow_metadata_inventory_move = function()
+			return 0
+		end,
+		allow_metadata_inventory_take = function()
+			return 0
+		end,
 	}
 })
 
@@ -168,8 +179,9 @@ if pipeworks.enable_one_way_tube then
 		paramtype = "light",
 		node_box = {type = "fixed",
 			fixed = {{-1/2, -9/64, -9/64, 1/2, 9/64, 9/64}}},
-		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, tubedevice = 1, axey=5},
-		_mcl_hardness=1.6,
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, tubedevice = 1, axey=1, handy=1, pickaxey=1},
+		is_ground_content = false,
+		_mcl_hardness=0.8,
 		_sound_def = {
 			key = "node_sound_wood_defaults",
 		},

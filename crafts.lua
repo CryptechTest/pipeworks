@@ -1,71 +1,5 @@
-local materials = {
-	stone = "default:stone",
-	desert_stone = "default:desert_stone",
-	desert_sand = "default:desert_sand",
-	chest = "default:chest",
-	copper_ingot = "default:copper_ingot",
-	steel_ingot = "default:steel_ingot",
-	gold_ingot = "default:gold_ingot",
-	mese = "default:mese",
-	mese_crystal = "default:mese_crystal",
-	mese_crystal_fragment = "default:mese_crystal_fragment",
-	teleporter = "default:mese",
-	glass = "default:glass",
-}
-
-if minetest.get_modpath("mcl_core") then
-	materials = {
-		stone = "mcl_core:stone",
-		desert_stone = "mcl_core:sandstone2",
-		desert_sand = "mcl_core:sand",
-		chest = "mcl_chests:chest_small",
-		steel_ingot = "mcl_core:iron_ingot",
-		gold_ingot = "mcl_core:gold_ingot",
-		mese = "default:mese",
-		mese_crystal = "default:mese_crystal",
-		mese_crystal_fragment = "mesecons:redstone",
-		teleporter = "default:mese",
-		-- Use iron where no equivalent
-		copper_ingot = "mcl_core:iron_ingot",
-		glass = "default:glass",
-	}
-elseif minetest.get_modpath("fl_ores") and minetest.get_modpath("fl_stone") then
-	materials = {
-		stone = "fl_stone:stone",
-		desert_stone = "fl_stone:desert_stone",
-		desert_sand = "fl_stone:desert_sand",
-		chest = "fl_storage:wood_chest",
-		steel_ingot = "fl_ores:iron_ingot",
-		gold_ingot = "fl_ores:gold_ingot",
-		mese = "fl_ores:iron_ingot",
-		mese_crystal = "fl_ores:iron_ingot",
-		mese_crystal_fragment = "fl_ores:iron_ingot",
-		teleporter = "fl_ores:iron_ingot",
-		copper_ingot = "fl_ores:copper_ingot",
-		glass = "fl_glass:framed_glass",
-	}
-elseif minetest.get_modpath("hades_core") then
-	materials = {
-		stone = "hades_core:stone",
-		desert_stone = "hades_core:stone_baked",
-		desert_sand = "hades_core:volcanic_sand",
-		chest = "hades_chests:chest";
-		steel_ingot = "hades_core:steel_ingot",
-		gold_ingot = "hades_core:gold_ingot",
-		mese = "hades_core:mese",
-		mese_crystal = "hades_core:mese_crystal",
-		mese_crystal_fragment = "hades_core:mese_crystal_fragment",
-		teleporter = "hades_materials:teleporter_device",
-		copper_ingot = "hades_core:copper_ingot",
-		tin_ingot = "hades_core:tin_ingot",
-		glass = "hades_core:glass",
-	}
-  if minetest.get_modpath("hades_default") then
-		materials.desert_sand = "hades_default:desert_sand"
-  end
-end
-
 -- Crafting recipes for pipes
+local materials = xcompat.materials
 
 minetest.register_craft( {
 	output = "pipeworks:pipe_1_empty 12",
@@ -196,15 +130,6 @@ minetest.register_craft( {
 })
 
 minetest.register_craft( {
-	output = "pipeworks:steel_block_embedded_tube 1",
-	recipe = {
-		{ materials.steel_ingot, materials.steel_ingot, materials.steel_ingot },
-		{ materials.steel_ingot, "pipeworks:tube_1", materials.steel_ingot },
-		{ materials.steel_ingot, materials.steel_ingot, materials.steel_ingot }
-	},
-})
-
-minetest.register_craft( {
 	output = "pipeworks:steel_pane_embedded_tube 1",
 	recipe = {
 		{ "", materials.steel_ingot, "" },
@@ -226,7 +151,7 @@ minetest.register_craft( {
 	output = "pipeworks:teleport_tube_1 2",
 	recipe = {
 			{ "basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" },
-			{ materials.desert_stone, materials.teleporter, materials.desert_stone },
+			{ materials.desert_stone, materials.mese, materials.desert_stone },
 			{ "basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" }
 	},
 })
@@ -335,6 +260,26 @@ if pipeworks.enable_mese_tube then
 		output = "pipeworks:mese_tube2_000000",
 		recipe = {
 			"pipeworks:mese_tube3_000000",
+		},
+	})
+end
+
+if pipeworks.enable_item_tags and pipeworks.enable_tag_tube then
+	minetest.register_craft( {
+		output = "pipeworks:tag_tube_000000 2",
+		recipe = {
+			{ "basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" },
+			{ materials.book, materials.mese_crystal, materials.book },
+			{ "basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" }
+		},
+	})
+
+	minetest.register_craft( {
+		type = "shapeless",
+		output = "pipeworks:tag_tube_000000",
+		recipe = {
+			"pipeworks:mese_tube_000000",
+			materials.book,
 		},
 	})
 end

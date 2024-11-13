@@ -37,11 +37,11 @@ for index, connects in ipairs(cconnects) do
 	end
 	--]]
 
-	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1, dig_generic = 4, axey=5}
+	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1, dig_generic = 4, axey=1, handy=1, pickaxey=1}
 	local pipedesc = S("Pipe Segment").." "..dump(connects)
 
 	if #connects == 0 then
-		pgroups = {snappy = 3, tube = 1, dig_generic = 4, axey=5}
+		pgroups = {snappy = 3, tube = 1, dig_generic = 4, axey=1, handy=1, pickaxey=1}
 		pipedesc = S("Pipe Segment")
 	end
 
@@ -76,7 +76,8 @@ for index, connects in ipairs(cconnects) do
 			fixed = outsel
 		},
 		groups = pgroups,
-		_mcl_hardness=1.6,
+		is_ground_content = false,
+		_mcl_hardness=0.8,
 		_sound_def = {
 			key = "node_sound_metal_defaults",
 		},
@@ -94,7 +95,7 @@ for index, connects in ipairs(cconnects) do
 		pipenumber = index
 	})
 
-	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1, dig_generic = 4, axey=5}
+	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1, dig_generic = 4, axey=1, handy=1, pickaxey=1}
 
 	minetest.register_node("pipeworks:pipe_"..index.."_loaded", {
 		description = pipedesc,
@@ -113,7 +114,8 @@ for index, connects in ipairs(cconnects) do
 			fixed = outsel
 		},
 		groups = pgroups,
-		_mcl_hardness = 1.6,
+		is_ground_content = false,
+		_mcl_hardness=0.8,
 		_sound_def = {
 			key = "node_sound_metal_defaults",
 		},
@@ -151,6 +153,7 @@ if REGISTER_COMPATIBILITY then
 		paramtype = "light",
 		description = S("Pipe Segment (legacy)"),
 		groups = {not_in_creative_inventory = 1, pipe_to_update = 1},
+		is_ground_content = false,
 		drop = "pipeworks:pipe_1_empty",
 		after_place_node = function(pos)
 			pipeworks.scan_for_pipe_objects(pos)
@@ -163,6 +166,7 @@ if REGISTER_COMPATIBILITY then
 		sunlight_propagates = true,
 		paramtype = "light",
 		groups = {not_in_creative_inventory = 1, pipe_to_update = 1},
+		is_ground_content = false,
 		drop = "pipeworks:pipe_1_empty",
 		after_place_node = function(pos)
 			pipeworks.scan_for_pipe_objects(pos)

@@ -3,6 +3,8 @@ local S = minetest.get_translator("pipeworks")
 local filename = minetest.get_worldpath().."/teleport_tubes"  -- Only used for backward-compat
 local storage = minetest.get_mod_storage()
 
+local enable_logging = minetest.settings:get_bool("pipeworks_log_teleport_tubes", false)
+
 local has_digilines = minetest.get_modpath("digilines")
 
 -- V1: Serialized text file indexed by vector position.
@@ -146,9 +148,11 @@ local function get_receivers(pos, channel)
 	return receivers
 end
 
-local help_text = S("Channels are public by default").."\n"..
+local help_text = minetest.formspec_escape(
+	S("Channels are public by default").."\n"..
 	S("Use <player>:<channel> for fully private channels").."\n"..
-	S("Use <player>\\;<channel> for private receivers")
+	S("Use <player>;<channel> for private receivers")
+)
 
 local size = has_digilines and "8,5.9" or "8,4.4"
 
@@ -233,7 +237,8 @@ local function can_go(pos, node, velocity, stack)
 	velocity.x = 0
 	velocity.y = 0
 	velocity.z = 0
-	local channel = minetest.get_meta(pos):get_string("channel")
+	local src_meta = minetest.get_meta(pos)
+	local channel = src_meta:get_string("channel")
 	if channel == "" then
 		return {}
 	end
@@ -242,6 +247,14 @@ local function can_go(pos, node, velocity, stack)
 		return {}
 	end
 	local target = receivers[math.random(1, #receivers)]
+	if enable_logging then
+		local src_owner = src_meta:get_string("owner")
+		local dst_meta = minetest.get_meta(pos)
+		local dst_owner = dst_meta:get_string("owner")
+		minetest.log("action", string.format("[pipeworks] %s teleported from %s (owner=%s) to %s (owner=%s) via %s",
+			stack:to_string(), minetest.pos_to_string(pos), src_owner, minetest.pos_to_string(target), dst_owner, channel
+		))
+	end
 	pos.x = target.x
 	pos.y = target.y
 	pos.z = target.z
@@ -259,14 +272,29 @@ local function repair_tube(pos, node)
 	update_meta(meta)
 end
 
-local function digiline_action(pos, _, channel, msg)
+local function digiline_action(pos, _, digiline_channel, msg)
 	local meta = minetest.get_meta(pos)
-	if channel ~= meta:get_string("digiline_channel") or type(msg) ~= "string" then
+	if digiline_channel ~= meta:get_string("digiline_channel") then
 		return
 	end
-	local name = meta:get_string("owner")
-	local cr = meta:get_int("can_receive")
-	update_tube(pos, msg, cr, name)
+	local channel = meta:get_string("channel")
+	local can_receive = meta:get_int("can_receive")
+	if type(msg) == "string" then
+		channel = msg
+	elseif type(msg) == "table" then
+		if type(msg.channel) == "string" then
+			channel = msg.channel
+		end
+		if msg.can_receive == 1 or msg.can_receive == true then
+			can_receive = 1
+		elseif msg.can_receive == 0 or msg.can_receive == false then
+			can_receive = 0
+		end
+	else
+		return
+	end
+	local player_name = meta:get_string("owner")
+	update_tube(pos, channel, can_receive, player_name)
 	update_meta(meta)
 end
 
@@ -329,6 +357,7 @@ pipeworks.tptube = {
 	hash = hash_pos,
 	get_db = function() return tube_db end,
 	save_tube_db = save_tube_db,
+	remove_tube = remove_tube,
 	set_tube = set_tube,
 	save_tube = save_tube,
 	update_tube = update_tube,
