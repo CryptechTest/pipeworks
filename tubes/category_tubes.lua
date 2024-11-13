@@ -205,9 +205,12 @@ if pipeworks.enable_mese_tube then
 							or not pipeworks.may_configure(pos, sender) then
 						return
 					end
-					local meta = minetest.get_meta(pos)					
+					local meta = minetest.get_meta(pos)
+					local function string_startswith(String, Start)
+						return string.sub(String,1,string.len(Start))==Start
+					end
 					for field in pairs(fields) do
-						if pipeworks.string_startswith(field, "fs_helpers_input:") then
+						if field and string_startswith(field, "fs_helpers_input:") then
 							--minetest.log(field)
 							local l = field:split(":")
 							local new_value = fields[field]
